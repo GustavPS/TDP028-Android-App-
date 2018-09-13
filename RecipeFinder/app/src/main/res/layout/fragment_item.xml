@@ -7,37 +7,40 @@
     android:weightSum="1">
 
     <ImageView
-        android:id="@+id/image"
+        android:id="@+id/bookmark_image"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:adjustViewBounds="true"
         android:cropToPadding="false"
         android:scaleType="centerCrop"
-        app:srcCompat="@drawable/image1" />
+        app:srcCompat="@drawable/image1"
+        android:tint="@color/tint"
+        />
 
     <TextView
         android:id="@+id/id"
-        android:layout_alignBottom="@+id/image"
-        android:layout_alignLeft="@+id/image"
-        android:layout_alignRight="@+id/image"
-        android:layout_alignTop="@+id/image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/bookmark_image"
+        android:layout_alignLeft="@+id/bookmark_image"
+        android:layout_alignRight="@+id/bookmark_image"
+        android:layout_alignTop="@+id/bookmark_image"
         android:layout_margin="@dimen/text_margin"
-        android:textColor="@color/light_font"
         android:shadowColor="@color/text_shadow"
         android:shadowDx="1"
         android:shadowDy="1"
         android:shadowRadius="2"
-        android:textAppearance="?attr/textAppearanceListItem" />
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:textColor="@color/light_font"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/content"
         android:gravity="right"
-        android:layout_alignBottom="@+id/image"
-        android:layout_alignLeft="@+id/image"
-        android:layout_alignRight="@+id/image"
-        android:layout_alignTop="@+id/image"
+        android:layout_alignBottom="@+id/bookmark_image"
+        android:layout_alignLeft="@+id/bookmark_image"
+        android:layout_alignRight="@+id/bookmark_image"
+        android:layout_alignTop="@+id/bookmark_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
@@ -47,5 +50,12 @@
         android:shadowDy="1"
         android:shadowRadius="2"
         android:textAppearance="?attr/textAppearanceListItem" />
+
+    <TextView
+        android:id="@+id/URI"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:visibility="invisible" />
 
 </RelativeLayout>

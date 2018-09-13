@@ -18,11 +18,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.example.gustav.recipefinder.User;
-import com.example.gustav.recipefinder.fragments.ItemFragment;
 import com.example.gustav.recipefinder.R;
-import com.example.gustav.recipefinder.dummy.BookmarkContent;
+import com.example.gustav.recipefinder.fragments.BookmarkList;
 import com.example.gustav.recipefinder.fragments.slideshow;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
@@ -42,7 +42,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, slideshow.OnFragmentInteractionListener, ItemFragment.OnListFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, slideshow.OnFragmentInteractionListener, BookmarkList.OnFragmentInteractionListener {
 
 
     private static int RC_SIGN_IN = 100;
@@ -95,8 +95,8 @@ public class MainActivity extends AppCompatActivity
     private void registerAccount(String name, String email, String id) {
         DatabaseReference ref = mDatabase.child("users");
         Map<String, Object> updates = new HashMap<>();
-        updates.put(id+"/name", name);
-        updates.put(id+"/email", email);
+        updates.put(id + "/name", name);
+        updates.put(id + "/email", email);
         ref.updateChildren(updates);
     }
 
@@ -200,8 +200,10 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    @Override
-    public void onListFragmentInteraction(BookmarkContent.BookmarkItem item) {
-
+    public void showRecipe(View view) {
+        String URI = ((TextView) view.findViewById(R.id.URI)).getText().toString();
+        Intent intent = new Intent(MainActivity.this, RecipeActivity.class);
+        intent.putExtra("URI", URI);
+        startActivity(intent);
     }
 }

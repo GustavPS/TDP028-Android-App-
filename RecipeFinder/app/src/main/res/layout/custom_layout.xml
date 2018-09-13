@@ -12,6 +12,7 @@
         android:adjustViewBounds="true"
         android:cropToPadding="false"
         android:scaleType="centerCrop"
+        android:tint="@color/tint"
         app:srcCompat="@mipmap/ic_launcher" />
 
     <TextView
@@ -22,7 +23,7 @@
         android:layout_alignLeft="@+id/imageView"
         android:layout_alignRight="@+id/imageView"
         android:layout_alignTop="@+id/imageView"
-        android:layout_margin="1dp"
+        android:layout_margin="10dp"
         android:gravity="top"
         android:text="Taylor Swift"
         android:textColor="@color/light_font"
