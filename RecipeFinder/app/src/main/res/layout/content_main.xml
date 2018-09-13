@@ -1,23 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.gustav.recipefinder.MainActivity"
-    tools:showIn="@layout/app_bar_main">
+    tools:context="com.example.gustav.recipefinder.activities.MainActivity"
+    tools:showIn="@layout/app_bar_main"
+    android:orientation="vertical"
+    android:background="@android:color/holo_orange_dark">
 
     <fragment
         android:id="@+id/fragment"
-        android:name="com.example.gustav.recipefinder.slideshow"
-        android:layout_width="398dp"
-        android:layout_height="209dp"
-        android:layout_marginRight="1dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="1dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="1dp"
+        android:name="com.example.gustav.recipefinder.fragments.slideshow"
+        android:layout_width="match_parent"
+        android:layout_height="216dp"
+        app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintHorizontal_bias="0.4" />
-</android.support.constraint.ConstraintLayout>
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/bookmarks"
+        android:textColor="@color/text_shadow_white"
+        android:textSize="24sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment" />
+
+    <fragment
+        android:id="@+id/fragment2"
+        android:name="com.example.gustav.recipefinder.fragments.ItemFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintVertical_bias="0.74" />
+
+</LinearLayout>

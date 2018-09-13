@@ -1,10 +1,8 @@
-package com.example.gustav.recipefinder;
+package com.example.gustav.recipefinder.adapters;
         import android.content.Context;
         import android.graphics.Bitmap;
         import android.graphics.BitmapFactory;
-        import android.net.Uri;
         import android.os.AsyncTask;
-        import android.provider.MediaStore;
         import android.support.v4.view.PagerAdapter;
         import android.support.v4.view.ViewPager;
         import android.view.LayoutInflater;
@@ -13,12 +11,13 @@ package com.example.gustav.recipefinder;
         import android.widget.ImageView;
         import android.widget.TextView;
 
+        import com.example.gustav.recipefinder.R;
+        import com.example.gustav.recipefinder.recipeHandler;
+        import com.example.gustav.recipefinder.slideImage;
+
         import org.json.JSONObject;
-        import org.w3c.dom.Text;
-        import android.net.Uri;
 
         import java.io.InputStream;
-        import java.net.HttpURLConnection;
         import java.net.URL;
 
 
@@ -26,13 +25,13 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     private Context context;
     private LayoutInflater layoutInflater;
-    private slideImage [] images = {new slideImage("Taylor Swift", "Test1", "https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/SZsu7JDqliztt1ct9/videoblocks-loading-bar-modern-concept-sign-progress-screen-download-idea-animation-design-load-alpha-channel-4k_swkumfvxw_thumbnail-full01.png"),
+    private slideImage[] images = {new slideImage("Taylor Swift", "Test1", "https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/SZsu7JDqliztt1ct9/videoblocks-loading-bar-modern-concept-sign-progress-screen-download-idea-animation-design-load-alpha-channel-4k_swkumfvxw_thumbnail-full01.png"),
             new slideImage("T Swift", "Test1", "https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/SZsu7JDqliztt1ct9/videoblocks-loading-bar-modern-concept-sign-progress-screen-download-idea-animation-design-load-alpha-channel-4k_swkumfvxw_thumbnail-full01.png"),
             new slideImage("TS", "Test1", "https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/SZsu7JDqliztt1ct9/videoblocks-loading-bar-modern-concept-sign-progress-screen-download-idea-animation-design-load-alpha-channel-4k_swkumfvxw_thumbnail-full01.png")};
     private ViewGroup container;
 
     private recipeHandler rh = new recipeHandler();
-    JSONObject json = rh.search("chicken", new recipeHandler.VolleyCallback() { // Sök efter mat med chicken
+    JSONObject json = rh.search("sausage", new recipeHandler.VolleyCallback() { // Sök efter mat med chicken
         @Override
         public JSONObject onSuccess(JSONObject result) { // Callbackfunktion som körs när vi fått sökinformation
             try {

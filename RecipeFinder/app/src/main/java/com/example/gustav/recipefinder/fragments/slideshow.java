@@ -1,14 +1,16 @@
-package com.example.gustav.recipefinder;
+package com.example.gustav.recipefinder.fragments;
 
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.gustav.recipefinder.R;
+import com.example.gustav.recipefinder.adapters.ViewPagerAdapter;
 
 
 /**

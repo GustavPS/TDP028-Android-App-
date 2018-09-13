@@ -59,10 +59,6 @@ public class recipeHandler extends AsyncTask<String, String, JSONObject> {
         }
         catch (Exception ex) {
             System.out.println("Search crash" + ex);
-
-
-
-
             return new JSONObject();
         }
     }
