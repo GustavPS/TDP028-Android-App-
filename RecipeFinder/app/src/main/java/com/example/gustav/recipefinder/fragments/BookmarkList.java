@@ -107,6 +107,7 @@ public class BookmarkList extends Fragment {
                 else
                     new DownLoadImageTask(imageView, model.getURI()).execute(model.getImage());
             }
+
         };
         mListView.setAdapter(mAdapter);
 
@@ -185,6 +186,7 @@ public class BookmarkList extends Fragment {
         protected void onPostExecute(Bitmap result){
             images.put(this.uri, result);
             this.imageView.setImageBitmap(result);
+            imageView.setImageBitmap(result);
         }
     }
 

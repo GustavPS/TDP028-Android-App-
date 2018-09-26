@@ -35,4 +35,7 @@
     <string name="twitter_consumer_key" translatable="false">YOUR_CONSUMER_KEY</string>
     <string name="twitter_consumer_secret" translatable="false">YOUR_CONSUMER_SECRET</string>
     <string name="title_activity_recipe">RecipeActivity</string>
+
+    <string name="calories">%1$s Calories</string>
+    <string name="time">Time: %1$s</string>
 </resources>

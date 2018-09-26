@@ -35,7 +35,7 @@ public class ViewPagerAdapter extends PagerAdapter {
         @Override
         public JSONObject onSuccess(JSONObject result) { // Callbackfunktion som körs när vi fått sökinformation
             try {
-                for(int i = 0; i < result.getJSONArray("hits").length(); i++) {
+                for (int i = 0; i < result.getJSONArray("hits").length(); i++) {
                     String url = result.getJSONArray("hits").getJSONObject(i).getJSONObject("recipe").getString("image");
                     images[i] = new slideImage(result.getJSONArray("hits").getJSONObject(i).getJSONObject("recipe").getString("label"), "Test1", url);
                     System.out.println("JSON: " + images[i].getImage());

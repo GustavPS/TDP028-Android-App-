@@ -1,5 +1,6 @@
 package com.example.gustav.recipefinder.activities;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
