@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -20,22 +21,98 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.gustav.recipefinder.Bookmark;
 import com.example.gustav.recipefinder.R;
 import com.example.gustav.recipefinder.adapters.HealthAdapter;
 import com.example.gustav.recipefinder.recipeHandler;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RecipeActivity extends AppCompatActivity {
 
-    private String URI;
     private recipeHandler rh = new recipeHandler();
     private ProgressDialog dialog;
     private Context c;
+
+    // Firebase variabler
+    private DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
+
+    // Variabler för detta receptet
+    private String URI;
+    private String title;
+    private String image;
+    private Boolean bookmarked;
+
+    // Bookmark knappen
+    private FloatingActionButton bookmarkBtn;
+
+    // Byt ut "." med "_" då man inte kan ha "." i firebase
+    private String URI_Regex(String URI) {
+        return URI.replaceAll("[\\.#$/]", "_");
+    }
+
+    private void bookmark(String URI, String image, String title) {
+        Bookmark bookmark = new Bookmark(URI, title, image);
+        URI = URI_Regex(URI);
+        DatabaseReference ref = mDatabase.child("users");
+        String id = mAuth.getUid();
+        ref.child(id+"/bookmarks/"+URI).setValue(bookmark);
+    }
+
+    private void removeBookmark(String URI) {
+        URI = URI_Regex(URI);
+        mDatabase.child("users/"+mAuth.getUid()+"/bookmarks/"+URI).removeValue();
+    }
+
+    private void setBookmarkIcon() { // Måste köras efter URI sätts
+        bookmarkBtn = findViewById(R.id.fab);
+        // Kolla om receptet är bookmarked
+        DatabaseReference ref = mDatabase.child("users/"+mAuth.getUid()+"/bookmarks");
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String id = URI_Regex(URI);
+                if(dataSnapshot.hasChild(id)) // Ifall receptet är bookmarkat
+                    bookmarked = true;
+
+                // Sätt onclicklistener till att ta bort bookmarken eller lägga till den
+                bookmarkBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(bookmarked) {
+                            removeBookmark(URI);
+                            Snackbar.make(view, R.string.remove_bookmark, Snackbar.LENGTH_SHORT)
+                                    .setAction("Action", null).show();
+                            bookmarked = false;
+                        } else {
+                            bookmark(URI, image, title);
+                            Snackbar.make(view, R.string.add_bookmark, Snackbar.LENGTH_SHORT)
+                                    .setAction("Action", null).show();
+                            bookmarked = true;
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,15 +121,9 @@ public class RecipeActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
+        // Ställ in databas och login referense så vi kan använda det senare
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         c = this;
         dialog = new ProgressDialog(RecipeActivity.this);
         URI = getIntent().getStringExtra("URI");
@@ -66,8 +137,13 @@ public class RecipeActivity extends AppCompatActivity {
                 ImageView imageView = findViewById(R.id.food_image);
                 try {
                     // Sätt bild och titel
-                    new DownLoadImageTask(imageView).execute(result.getString("image"));
-                    ((TextView)findViewById(R.id.food_title)).setText(result.getString("label"));
+                    image = result.getString("image");
+                    title = result.getString("label");
+                    new DownLoadImageTask(imageView).execute(image);
+                    ((TextView)findViewById(R.id.food_title)).setText(title);
+
+                    // Bookmark ikonen
+                    setBookmarkIcon();
 
                     // Ställ in ingridienser
                     ArrayList<String> iItems = new ArrayList<>();

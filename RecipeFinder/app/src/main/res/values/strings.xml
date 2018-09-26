@@ -38,4 +38,7 @@
 
     <string name="calories">%1$s Calories</string>
     <string name="time">Time: %1$s</string>
+
+    <string name="add_bookmark">Added to bookmarks</string>
+    <string name="remove_bookmark">Removed from bookmarks</string>
 </resources>
