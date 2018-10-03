@@ -25,12 +25,15 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     private Context context;
     private LayoutInflater layoutInflater;
+    // TODO: gör om så det kan vara mer bilder
     private slideImage[] images = {new slideImage("Taylor Swift", "Test1", "https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/SZsu7JDqliztt1ct9/videoblocks-loading-bar-modern-concept-sign-progress-screen-download-idea-animation-design-load-alpha-channel-4k_swkumfvxw_thumbnail-full01.png"),
             new slideImage("T Swift", "Test1", "https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/SZsu7JDqliztt1ct9/videoblocks-loading-bar-modern-concept-sign-progress-screen-download-idea-animation-design-load-alpha-channel-4k_swkumfvxw_thumbnail-full01.png"),
             new slideImage("TS", "Test1", "https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/SZsu7JDqliztt1ct9/videoblocks-loading-bar-modern-concept-sign-progress-screen-download-idea-animation-design-load-alpha-channel-4k_swkumfvxw_thumbnail-full01.png")};
     private ViewGroup container;
 
     private recipeHandler rh = new recipeHandler();
+
+    // TODO: Krashar om recipehandler.search to är mer än 3 då images[i] då i = 3 inte finns.
     JSONObject json = rh.search("sausage", new recipeHandler.VolleyCallback() { // Sök efter mat med chicken
         @Override
         public JSONObject onSuccess(JSONObject result) { // Callbackfunktion som körs när vi fått sökinformation

@@ -44,16 +44,8 @@ public class BookmarkList extends Fragment {
 
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
     private Map<String, Bitmap> images = new HashMap<>();
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
@@ -61,31 +53,14 @@ public class BookmarkList extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment BookmarkList.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static BookmarkList newInstance(String param1, String param2) {
+    public static BookmarkList newInstance() {
         BookmarkList fragment = new BookmarkList();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -101,6 +76,8 @@ public class BookmarkList extends Fragment {
                 ((TextView) view.findViewById(R.id.id)).setText(model.getTitle());
                 ImageView imageView = (ImageView) view.findViewById(R.id.bookmark_image);
                 ((TextView) view.findViewById(R.id.URI)).setText(model.getURI()); // Sätt URI så vi vet vilken maträtt det är ( Invisible TextView )
+
+                // TODO: Alla bilder blir samma eftersom URI är samma på alla. Det beror på databasen. Borde funka när databasen har riktiga värden
 
                 if(images.containsKey(model.getURI())) // Ifall vi redan har ladat ner bilden, ladda in den istället för att ladda ner den igen
                     imageView.setImageBitmap(images.get(model.getURI()));

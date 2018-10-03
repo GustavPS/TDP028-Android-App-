@@ -1,21 +1,21 @@
 package com.example.gustav.recipefinder;
 
 public class Bookmark {
-    private String URI;
+    private String uri;
     private String title;
     private String image;
 
     public Bookmark() {}
 
     public Bookmark(String URI, String title, String image) {
-        this.URI = URI;
+        this.uri = URI;
         this.title = title;
         this.image = image;
     }
 
 
     public String getURI() {
-        return URI;
+        return uri;
     }
 
     public String getImage() {

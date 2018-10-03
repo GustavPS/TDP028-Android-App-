@@ -54,7 +54,7 @@ public class RecipeActivity extends AppCompatActivity {
     private String URI;
     private String title;
     private String image;
-    private Boolean bookmarked;
+    private Boolean bookmarked = false;
 
     // Bookmark knappen
     private FloatingActionButton bookmarkBtn;
