@@ -35,10 +35,10 @@ public class recipeHandler extends AsyncTask<String, String, JSONObject> {
         return new JSONObject();
     }
 
-    public void search_with_calories(String query, String cal_start, String cal_end, VolleyCallback callback) {
+    public void search_with_calories(String query, String cal_start, String cal_end, String from, String to, VolleyCallback callback) {
         c = callback;
         try {
-            String url = "https://api.edamam.com/search?q=" + java.net.URLEncoder.encode(query, "UTF-8") + "&app_id=333fe5c4&app_key=0f97bc389287ab1c563cbb9413daed8e&calories=" + cal_start + "-" + cal_end;
+            String url = "https://api.edamam.com/search?q=" + java.net.URLEncoder.encode(query, "UTF-8") + "&app_id=333fe5c4&app_key=0f97bc389287ab1c563cbb9413daed8e&from=" + from + "&to=" + to + "&calories=" + cal_start + "-" + cal_end;
             this.execute(url);
         } catch(Exception ex) {
             System.out.println("URL crash ( search)");

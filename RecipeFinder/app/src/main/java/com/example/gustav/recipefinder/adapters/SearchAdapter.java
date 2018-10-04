@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.gustav.recipefinder.R;
@@ -18,13 +19,25 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
 
-public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
+public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Recipe> list;
+
+    private final int VIEW_TYPE_ITEM = 0;
+    private final int VIEW_TYPE_LOADING = 1;
 
     private OnItemClicked onClick;
 
     public interface OnItemClicked {
         void onItemClicked(int position);
+    }
+
+    private class LoadingViewHolder extends RecyclerView.ViewHolder {
+        public ProgressBar progressBar;
+
+        public LoadingViewHolder(View view) {
+            super(view);
+            progressBar = (ProgressBar) view.findViewById(R.id.progressBar1);
+        }
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -47,34 +60,57 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     }
 
     @Override
-    public SearchAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_item, parent, false);
-
-        return new ViewHolder(itemView);
+    public int getItemViewType(int position) {
+        return list.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
-        Recipe recipe = list.get(position);
-        holder.id.setText(recipe.title);
-        holder.calories.setText(recipe.calories);
-        holder.time.setText(recipe.time);
-        holder.URI.setText(recipe.URI);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
+        if (viewType == VIEW_TYPE_ITEM) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_item, parent, false);
+            return new ViewHolder(view);
+        } else if (viewType == VIEW_TYPE_LOADING) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading, parent, false);
+            return new LoadingViewHolder(view);
+        }
+        return null;
+/*
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.fragment_item, parent, false);
 
+        return new ViewHolder(itemView); */
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+        if (holder instanceof ViewHolder) {
+            ViewHolder userViewHolder = (ViewHolder) holder;
+            Recipe recipe = list.get(position);
+            userViewHolder.id.setText(recipe.title);
+            userViewHolder.calories.setText(recipe.calories + " kcal");
+            userViewHolder.time.setText(recipe.time);
+            userViewHolder.URI.setText(recipe.URI);
+            userViewHolder.image.setImageBitmap(list.get(position).bitmap);
+
+            userViewHolder.layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onClick.onItemClicked(position);
+                }
+            });
+        } else if (holder instanceof LoadingViewHolder) {
+            LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
+            loadingViewHolder.progressBar.setIndeterminate(true);
+        }
+
+    /*
         if(list.get(position).bitmap == null) // Så den slipper ladda ner bilderna efter dom redan har blivit nedladdade.
             new SearchAdapter.DownLoadImageTask(holder.image, position).execute(list.get(position).url);
         else
             holder.image.setImageBitmap(list.get(position).bitmap);
+            */
 
-        holder.layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClick.onItemClicked(position);
-            }
-        });
     }
 
     @Override
