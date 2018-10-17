@@ -41,4 +41,6 @@
 
     <string name="add_bookmark">Added to bookmarks</string>
     <string name="remove_bookmark">Removed from bookmarks</string>
+
+    <string name="open_recipe">Show instructions</string>
 </resources>

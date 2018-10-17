@@ -8,7 +8,7 @@
     tools:context=".activities.RecipeActivity"
     tools:showIn="@layout/activity_recipe">
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -90,7 +90,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/ingredient_list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:layout_marginTop="0dp"/>
 
@@ -105,11 +105,23 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/health_list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:layout_marginTop="0dp"/>
+                android:layout_marginTop="0dp">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <Button
+                android:id="@+id/open_recipe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:layout_margin="8dp"
+                android:text="@string/open_recipe"
+                android:autoLink="web"
+                android:textColor="@android:color/white" />
 
         </LinearLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
 </android.support.constraint.ConstraintLayout>

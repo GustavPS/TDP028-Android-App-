@@ -2,8 +2,10 @@ package com.example.gustav.recipefinder.activities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -52,6 +55,7 @@ public class RecipeActivity extends AppCompatActivity {
 
     // Variabler för detta receptet
     private String URI;
+    private String URL;
     private String title;
     private String image;
     private Boolean bookmarked = false;
@@ -131,6 +135,25 @@ public class RecipeActivity extends AppCompatActivity {
 
         this.dialog.setMessage("Loading");
         this.dialog.show();
+        load_recipe();
+
+        Button open_recipe_btn = findViewById(R.id.open_recipe);
+        open_recipe_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                open_recipe();
+            }
+        });
+
+    }
+
+    private void open_recipe() {
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(URL));
+        startActivity(i);
+    }
+
+    private void load_recipe() {
         JSONObject recipe = rh.searchByURI(URI, new recipeHandler.VolleyCallback() {
             @Override
             public JSONObject onSuccess(JSONObject result) { // Initiera alla views
@@ -145,6 +168,8 @@ public class RecipeActivity extends AppCompatActivity {
                     // Bookmark ikonen
                     setBookmarkIcon();
 
+                    URL = result.getString("url");
+                    System.out.println("DETTA ÄR URL: " + URL);
                     // Ställ in ingridienser
                     ArrayList<String> iItems = new ArrayList<>();
                     HealthAdapter iAdapter;
@@ -199,7 +224,6 @@ public class RecipeActivity extends AppCompatActivity {
                 return null;
             }
         });
-
     }
 
     private class DownLoadImageTask extends AsyncTask<String,Void,Bitmap> { // Används för att göra en URL till en bitmap ( Ladda ner en bild )
@@ -233,5 +257,7 @@ public class RecipeActivity extends AppCompatActivity {
             }
         }
     }
+
+
 
 }
