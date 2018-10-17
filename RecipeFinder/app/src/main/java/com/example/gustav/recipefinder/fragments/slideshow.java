@@ -26,6 +26,16 @@ public class slideshow extends Fragment implements ViewPagerAdapter.OnItemClicke
         // Required empty public constructor
     }
 
+    private String formatTime(int totalTime) {
+        if(totalTime <= 30) {
+            return "Short";
+        } else if(totalTime <= 60) {
+            return "Medium";
+        } else {
+            return "Long";
+        }
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,11 +53,21 @@ public class slideshow extends Fragment implements ViewPagerAdapter.OnItemClicke
                 try {
                     for (int i = 0; i < result.getJSONArray("hits").length(); i++) {
                         String url = result.getJSONArray("hits").getJSONObject(i).getJSONObject("recipe").getString("image");
+
+                        String time = result.getJSONArray("hits").getJSONObject(i).getJSONObject("recipe").getString("totalTime");
+                        int totalTime = Integer.parseInt(time.substring(0, time.indexOf(".")));
+                        time = String.format(getResources().getString(R.string.time), formatTime(totalTime));
+
+                        String calories = result.getJSONArray("hits").getJSONObject(i).getJSONObject("recipe").getString("calories");
+                        calories = calories.substring(0, calories.indexOf("."));
+
                         images[i] = new slideImage(
                                 result.getJSONArray("hits").getJSONObject(i).getJSONObject("recipe").getString("label"),
                                 "Test1",
                                 url,
-                                result.getJSONArray("hits").getJSONObject(i).getJSONObject("recipe").getString("uri")
+                                result.getJSONArray("hits").getJSONObject(i).getJSONObject("recipe").getString("uri"),
+                                calories,
+                                time
                                 );
                     }
                     setViewPager(images);

@@ -75,6 +75,8 @@ public class BookmarkList extends Fragment {
             protected void populateView(View view, Bookmark model, int position) {
                 ((TextView) view.findViewById(R.id.id)).setText(model.getTitle());
                 ImageView imageView = (ImageView) view.findViewById(R.id.bookmark_image);
+                ((TextView) view.findViewById(R.id.calories_value)).setText(model.getCalories() + " kcal");
+                ((TextView) view.findViewById(R.id.time_value)).setText("Time: " + model.getTime());
                 ((TextView) view.findViewById(R.id.URI)).setText(model.getURI()); // Sätt URI så vi vet vilken maträtt det är ( Invisible TextView )
 
                 // TODO: Alla bilder blir samma eftersom URI är samma på alla. Det beror på databasen. Borde funka när databasen har riktiga värden

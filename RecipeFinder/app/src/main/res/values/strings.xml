@@ -43,4 +43,7 @@
     <string name="remove_bookmark">Removed from bookmarks</string>
 
     <string name="open_recipe">Show instructions</string>
+
+    <string name="recommendations">Recommendations</string>
+    <string name="imageDescription">A image</string>
 </resources>

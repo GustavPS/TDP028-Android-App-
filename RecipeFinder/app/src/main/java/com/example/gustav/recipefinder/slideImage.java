@@ -13,14 +13,18 @@ public class slideImage {
     private String description;
     private String image;
     private String URI;
+    private String calories;
+    private String time;
     public Bitmap bitmap;
 
-    public slideImage(String title, String description, String image, String URI) {
+    public slideImage(String title, String description, String image, String URI, String calories, String time) {
         this.title = title;
         this.description = description;
         this.image = image;
         this.bitmap = null;
         this.URI = URI;
+        this.calories = calories;
+        this.time = time;
     }
 
     public String getTitle() {
@@ -36,4 +40,8 @@ public class slideImage {
     }
 
     public String getURI() { return URI; }
+
+    public String getCalories() { return calories; }
+
+    public String getTime() { return time; }
 }

@@ -58,6 +58,8 @@ public class ViewPagerAdapter extends PagerAdapter {
         ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
         TextView textView = (TextView) view.findViewById(R.id.Title);
         TextView URIText = view.findViewById(R.id.URI);
+        TextView caloriesText = view.findViewById(R.id.calories_value);
+        TextView timeText = view.findViewById(R.id.time_value);
 
         if(images[position].bitmap == null) // Så den slipper ladda ner bilderna efter dom redan har blivit nedladdade.
             new DownLoadImageTask(imageView, position).execute(images[position].getImage());
@@ -66,6 +68,9 @@ public class ViewPagerAdapter extends PagerAdapter {
 
         textView.setText(images[position].getTitle());
         URIText.setText(images[position].getURI());
+        caloriesText.setText(images[position].getCalories() + " kcal");
+        timeText.setText(images[position].getTime());
+
         ViewPager vp = (ViewPager) container;
         vp.addView(view, 0);
         vp.findViewById(R.id.cardView).setOnClickListener(new View.OnClickListener() {

@@ -58,6 +58,9 @@ public class RecipeActivity extends AppCompatActivity {
     private String URL;
     private String title;
     private String image;
+    private String calories;
+    private String time;
+
     private Boolean bookmarked = false;
 
     // Bookmark knappen
@@ -69,7 +72,7 @@ public class RecipeActivity extends AppCompatActivity {
     }
 
     private void bookmark(String URI, String image, String title) {
-        Bookmark bookmark = new Bookmark(URI, title, image);
+        Bookmark bookmark = new Bookmark(URI, title, image, time, calories);
         URI = URI_Regex(URI);
         DatabaseReference ref = mDatabase.child("users");
         String id = mAuth.getUid();
@@ -147,6 +150,7 @@ public class RecipeActivity extends AppCompatActivity {
 
     }
 
+    // Funktion för att öppna webbläsaren med receptet
     private void open_recipe() {
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(URL));
@@ -162,6 +166,8 @@ public class RecipeActivity extends AppCompatActivity {
                     // Sätt bild och titel
                     image = result.getString("image");
                     title = result.getString("label");
+                    calories = result.getString("calories");
+                    calories = calories.substring(0, calories.indexOf("."));
                     new DownLoadImageTask(imageView).execute(image);
                     ((TextView)findViewById(R.id.food_title)).setText(title);
 
@@ -169,7 +175,6 @@ public class RecipeActivity extends AppCompatActivity {
                     setBookmarkIcon();
 
                     URL = result.getString("url");
-                    System.out.println("DETTA ÄR URL: " + URL);
                     // Ställ in ingridienser
                     ArrayList<String> iItems = new ArrayList<>();
                     HealthAdapter iAdapter;
@@ -192,16 +197,10 @@ public class RecipeActivity extends AppCompatActivity {
                     ((TextView)findViewById(R.id.calories_text)).setText(String.format(getResources().getString(R.string.calories), Integer.toString(calories)));
 
                     // Ställ in tid
-                    String time = "";
                     int totalTime = Integer.parseInt(result.getString("totalTime").substring(0, result.getString("totalTime").indexOf(".")));
-                    if(totalTime <= 30) {
-                        time = String.format(getResources().getString(R.string.time), "Short");
-                    } else if(totalTime <= 60) {
-                        time = String.format(getResources().getString(R.string.time), "Medium");
-                    } else {
-                        time = String.format(getResources().getString(R.string.time), "Long");
-                    }
-                    ((TextView)findViewById(R.id.time_text)).setText(time);
+                    String temp_time = String.format(getResources().getString(R.string.time), formatTime(totalTime));
+                    time = formatTime(totalTime);
+                    ((TextView)findViewById(R.id.time_text)).setText(temp_time);
 
                     // Ställ in hälso listan
                     ArrayList<String> healthItems = new ArrayList<>();
@@ -224,6 +223,16 @@ public class RecipeActivity extends AppCompatActivity {
                 return null;
             }
         });
+    }
+
+    private String formatTime(int totalTime) {
+        if(totalTime <= 30) {
+            return "Short";
+        } else if(totalTime <= 60) {
+            return "Medium";
+        } else {
+            return "Long";
+        }
     }
 
     private class DownLoadImageTask extends AsyncTask<String,Void,Bitmap> { // Används för att göra en URL till en bitmap ( Ladda ner en bild )
