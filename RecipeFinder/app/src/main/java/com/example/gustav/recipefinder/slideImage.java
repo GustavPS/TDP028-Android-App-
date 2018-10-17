@@ -12,13 +12,15 @@ public class slideImage {
     private String title;
     private String description;
     private String image;
+    private String URI;
     public Bitmap bitmap;
 
-    public slideImage(String title, String description, String image) {
+    public slideImage(String title, String description, String image, String URI) {
         this.title = title;
         this.description = description;
         this.image = image;
         this.bitmap = null;
+        this.URI = URI;
     }
 
     public String getTitle() {
@@ -32,4 +34,6 @@ public class slideImage {
     public String getImage() {
         return image;
     }
+
+    public String getURI() { return URI; }
 }

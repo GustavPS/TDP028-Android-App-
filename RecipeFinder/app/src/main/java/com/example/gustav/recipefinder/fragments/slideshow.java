@@ -10,30 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.gustav.recipefinder.R;
+import com.example.gustav.recipefinder.activities.MainActivity;
 import com.example.gustav.recipefinder.adapters.ViewPagerAdapter;
+import com.example.gustav.recipefinder.recipeHandler;
+import com.example.gustav.recipefinder.slideImage;
 
+import org.json.JSONObject;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link slideshow.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link slideshow#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class slideshow extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
+public class slideshow extends Fragment implements ViewPagerAdapter.OnItemClicked {
     ViewPager viewPager;
-
-
 
     private OnFragmentInteractionListener mListener;
 
@@ -41,41 +26,50 @@ public class slideshow extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment slideshow.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static slideshow newInstance(String param1, String param2) {
-        slideshow fragment = new slideshow();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        recipeHandler rh = new recipeHandler();
+        final slideImage[] images = new slideImage[3];
+
+        // TODO: Krashar om recipehandler.search to är mer än 3 då images[i] då i = 3 inte finns.
+        rh.search("sausage", new recipeHandler.VolleyCallback() { // Sök efter mat med chicken
+            @Override
+            public JSONObject onSuccess(JSONObject result) { // Callbackfunktion som körs när vi fått sökinformation
+                try {
+                    for (int i = 0; i < result.getJSONArray("hits").length(); i++) {
+                        String url = result.getJSONArray("hits").getJSONObject(i).getJSONObject("recipe").getString("image");
+                        images[i] = new slideImage(
+                                result.getJSONArray("hits").getJSONObject(i).getJSONObject("recipe").getString("label"),
+                                "Test1",
+                                url,
+                                result.getJSONArray("hits").getJSONObject(i).getJSONObject("recipe").getString("uri")
+                                );
+                    }
+                    setViewPager(images);
+                }
+                catch(Exception ex)
+                {
+                    System.out.println("krash: " + ex);
+                }
+                return null;
+            }
+        });
+
+    }
+
+    private void setViewPager(slideImage[] images)
+    {
         viewPager = (ViewPager) getView().findViewById(R.id.viewPager);
-
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this.getContext());
-
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this.getContext(), images);
+        viewPagerAdapter.setOnClick(slideshow.this);
         viewPager.setAdapter(viewPagerAdapter);
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -120,5 +114,10 @@ public class slideshow extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void OnItemClicked(View view) {
+        ((MainActivity) getActivity()).showRecipe(view);
     }
 }
