@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.example.gustav.recipefinder.Bookmark;
 import com.example.gustav.recipefinder.R;
 import com.example.gustav.recipefinder.activities.MainActivity;
 import com.firebase.ui.database.FirebaseListAdapter;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -70,6 +72,7 @@ public class BookmarkList extends Fragment {
 
         ListView mListView = (ListView) getView().findViewById(R.id.bookmark_list);
         DatabaseReference ref = mDatabase.child("users/"+mAuth.getUid()+"/bookmarks");
+
         FirebaseListAdapter<Bookmark> mAdapter = new FirebaseListAdapter<Bookmark>(this.getActivity(), Bookmark.class, R.layout.fragment_item, ref) {
             @Override
             protected void populateView(View view, Bookmark model, int position) {
