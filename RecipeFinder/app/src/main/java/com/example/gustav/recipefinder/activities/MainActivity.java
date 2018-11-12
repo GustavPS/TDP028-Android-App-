@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        /*
         // Choose authentication providers
         List<AuthUI.IdpConfig> providers = Arrays.asList(
                 new AuthUI.IdpConfig.EmailBuilder().build(),
@@ -82,7 +83,7 @@ public class MainActivity extends AppCompatActivity
                         .setAvailableProviders(providers)
                         .build(),
                 RC_SIGN_IN);
-
+                */
     }
 
     private void registerAccount(String name, String email, String id) {
@@ -164,8 +165,9 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.search) {
             Intent intent = new Intent(MainActivity.this, SearchActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_gallery) {
-
+        } else if (id == R.id.profile) {
+            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
