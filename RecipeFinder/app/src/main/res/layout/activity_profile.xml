@@ -7,14 +7,16 @@
     android:orientation="vertical"
     tools:context=".activities.ProfileActivity">
 
-    <fragment
-        android:id="@+id/fragment3"
-        android:name="com.example.gustav.recipefinder.fragments.ProfileTop"
+    <LinearLayout
+        android:id="@+id/fragment_top"
         android:layout_width="match_parent"
-        android:layout_height="191dp" />
+        android:layout_height="191dp"
+        android:orientation="vertical"></LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/setting_list"
+    <LinearLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"></LinearLayout>
+
 </LinearLayout>
