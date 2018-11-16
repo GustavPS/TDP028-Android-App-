@@ -47,6 +47,8 @@ public class BookmarkList extends Fragment {
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
 
+    private String uID;
+
     private Map<String, Bitmap> images = new HashMap<>();
 
     private OnFragmentInteractionListener mListener;
@@ -55,9 +57,18 @@ public class BookmarkList extends Fragment {
         // Required empty public constructor
     }
 
-    public static BookmarkList newInstance() {
+    public static BookmarkList newInstance(String uID) {
+        Bundle bundle = new Bundle();
+        bundle.putString("uID", uID);
         BookmarkList fragment = new BookmarkList();
+        fragment.setArguments(bundle);
         return fragment;
+    }
+
+    private void readBundle(Bundle bundle) {
+        if (bundle != null) {
+            uID = bundle.getString("uID");
+        }
     }
 
     @Override
@@ -67,11 +78,12 @@ public class BookmarkList extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        readBundle(getArguments());
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         ListView mListView = (ListView) getView().findViewById(R.id.bookmark_list);
-        DatabaseReference ref = mDatabase.child("users/"+mAuth.getUid()+"/bookmarks");
+        DatabaseReference ref = mDatabase.child("users/"+uID+"/bookmarks");
 
         FirebaseListAdapter<Bookmark> mAdapter = new FirebaseListAdapter<Bookmark>(this.getActivity(), Bookmark.class, R.layout.fragment_item, ref) {
             @Override

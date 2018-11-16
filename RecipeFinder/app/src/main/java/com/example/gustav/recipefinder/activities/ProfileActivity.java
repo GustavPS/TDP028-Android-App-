@@ -14,26 +14,34 @@ import android.support.v7.widget.RecyclerView;
 import com.example.gustav.recipefinder.R;
 import com.example.gustav.recipefinder.adapters.ProfileAdapter;
 import com.example.gustav.recipefinder.classes.ProfileSetting;
+import com.example.gustav.recipefinder.fragments.BookmarkList;
 import com.example.gustav.recipefinder.fragments.ProfileAdmin;
 import com.example.gustav.recipefinder.fragments.ProfileTop;
 import com.example.gustav.recipefinder.fragments.Settings;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProfileActivity extends AppCompatActivity implements ProfileAdmin.OnFragmentInteractionListener , Settings.OnFragmentInteractionListener{
+public class ProfileActivity extends AppCompatActivity implements ProfileAdmin.OnFragmentInteractionListener , Settings.OnFragmentInteractionListener, BookmarkList.OnFragmentInteractionListener{
 
+    private FirebaseAuth mAuth;
+    private FirebaseUser mFirebaseUser;
     private String uID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        uID = getIntent().getStringExtra("uID");
+
+        mAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mAuth.getCurrentUser();
+
 
         FragmentManager manager = getSupportFragmentManager();
-
-        uID = "Lc3FVWl4zkPrid16qMJShfUfYSr2"; // Ska hämtas från parameter egentligen
-
         // Top fragment
         FragmentTransaction transaction = manager.beginTransaction();
 
@@ -42,12 +50,18 @@ public class ProfileActivity extends AppCompatActivity implements ProfileAdmin.O
         transaction.commit();
 
         // Bottom fragment
-        transaction = manager.beginTransaction();
-        Fragment frag = new ProfileAdmin();
-        transaction.replace(R.id.fragment_container, frag);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        if(mFirebaseUser != null) {
+            Fragment frag;
+            if(mFirebaseUser.getUid().equals(uID)) {
+                frag = new ProfileAdmin();
+            } else {
+                frag = BookmarkList.newInstance(uID);
+            }
+            transaction = manager.beginTransaction();
+            transaction.replace(R.id.fragment_container, frag);
+            transaction.commit();
 
+        }
     }
 
     public void onFragmentInteraction(Uri uri) {

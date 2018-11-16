@@ -1,5 +1,6 @@
 package com.example.gustav.recipefinder.activities;
 
+import android.support.v4.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,6 +9,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
@@ -71,19 +74,13 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        /*
-        // Choose authentication providers
-        List<AuthUI.IdpConfig> providers = Arrays.asList(
-                new AuthUI.IdpConfig.EmailBuilder().build(),
-                new AuthUI.IdpConfig.GoogleBuilder().build());
 
-        startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setAvailableProviders(providers)
-                        .build(),
-                RC_SIGN_IN);
-                */
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+
+        Fragment fragment = BookmarkList.newInstance(mAuth.getUid());
+        transaction.add(R.id.bookmark_holder, fragment);
+        transaction.commit();
     }
 
     private void registerAccount(String name, String email, String id) {
@@ -167,9 +164,11 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.profile) {
             Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+            intent.putExtra("uID", mAuth.getUid());
             startActivity(intent);
-        } else if (id == R.id.nav_slideshow) {
-
+        } else if (id == R.id.search_user) {
+            Intent intent = new Intent(MainActivity.this, SearchUserActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
