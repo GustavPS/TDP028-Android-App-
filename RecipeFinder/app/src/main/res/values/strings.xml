@@ -46,4 +46,9 @@
 
     <string name="recommendations">Recommendations</string>
     <string name="imageDescription">A image</string>
+
+    <string name="friendPending">Friend request sent.</string>
+    <string name="friendRecieved">User wants to be your friend!</string>
+    <string name="friends">You are friends!</string>
+    <string name="notFriends">You are not friends.</string>
 </resources>
