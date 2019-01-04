@@ -17,3 +17,9 @@ Specifikationer
 * Varje recept har en bild, information om ingredienser och en länk till instruktionerna.
 * Alla användare kan söka efter recept, men kan inte lägga till egna. Detta kan vara 
 värt att bygga ut ifall appen skulle bli större.
+
+
+
+Screencasts
+---------------
+Användardemo: https://www.youtube.com/watch?v=C--XZQ5C0tE
