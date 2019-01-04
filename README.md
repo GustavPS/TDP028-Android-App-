@@ -18,6 +18,24 @@ Specifikationer
 * Alla användare kan söka efter recept, men kan inte lägga till egna. Detta kan vara 
 värt att bygga ut ifall appen skulle bli större.
 
+Tekniska krav
+---------------
+* Modulär kod
+* Användning av fragments, dvs. bra avvägning mellan användning av activities och fragments, enligt best practices
+* Hantering av användarinput på rätt nivå i koden, dvs. korrekt avvägning mellan view/fragment vs. activity
+* Snygg användning av callbacks, dvs. anonyma listeners, men samtidigt underlättat för testning.  ( Används huvudsakligen i RecipyHandler)
+* Användning av interfaces vid inkoppling av fragment till aktivitet ( Använder interface för kommunikation mellan activity och fragments )
+* Hantering av bakåtknapp, så att man aldrig hamnar konstigt vid tryck på bakåtknappen
+* Åtminstone en egenskriven adapter
+
+API-krav
+---------------
+* Använder Firebase som databas
+* Enkel inloggning mot Firebase
+* Koll på inloggningsstatus för att kunna använda vissa features, t.ex. att inloggning krävs för att få se viss information i appen
+* Kontohantering, t.ex. lagra poäng, vänlista, eller dylikt som ska sparas över tid för olika användare
+* Tredjepartsinloggning med Google
+* Tredjepartsinloggning med Facebook
 
 
 Screencasts
