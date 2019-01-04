@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.example.gustav.recipefinder.Bookmark;
 import com.example.gustav.recipefinder.R;
 import com.example.gustav.recipefinder.activities.MainActivity;
+import com.example.gustav.recipefinder.activities.ProfileActivity;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -87,7 +88,7 @@ public class BookmarkList extends Fragment {
 
         FirebaseListAdapter<Bookmark> mAdapter = new FirebaseListAdapter<Bookmark>(this.getActivity(), Bookmark.class, R.layout.fragment_item, ref) {
             @Override
-            protected void populateView(View view, Bookmark model, int position) {
+            protected void populateView(View view, Bookmark  model, int position) {
                 ((TextView) view.findViewById(R.id.id)).setText(model.getTitle());
                 ImageView imageView = (ImageView) view.findViewById(R.id.bookmark_image);
                 ((TextView) view.findViewById(R.id.calories_value)).setText(model.getCalories() + " kcal");
@@ -116,7 +117,8 @@ public class BookmarkList extends Fragment {
     }
 
     public void itemClick(View view) {
-        ((MainActivity) getActivity()).showRecipe(view);
+        mListener.showRecipe(view);
+        //((ProfileActivity) getActivity()).showRecipe(view);
     }
 
     @Override
@@ -196,6 +198,7 @@ public class BookmarkList extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
+        void showRecipe(View view);
         void onFragmentInteraction(Uri uri);
     }
 }

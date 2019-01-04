@@ -37,7 +37,7 @@
                     android:textSize="24sp"
                     app:layout_constraintTop_toBottomOf="@+id/food_image"
                     tools:layout_editor_absoluteX="5dp" />
-
+<!--
                 <RatingBar
                     android:id="@+id/rating"
                     android:layout_width="match_parent"
@@ -47,7 +47,7 @@
                     android:isIndicator="false"
                     android:numStars="4"
                     android:stepSize="1" />
-
+-->
             </LinearLayout>
 
             <LinearLayout

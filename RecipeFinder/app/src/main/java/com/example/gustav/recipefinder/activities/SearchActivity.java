@@ -83,7 +83,11 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.O
         progressBar = findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.GONE);
 
+        setupScroll();
+        setupSearch();
+    }
 
+    private void setupScroll() {
         // Ladda nytt innehåll när användaren skrollar längst ner
         final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -136,6 +140,11 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.O
                 }
             }
         });
+    }
+
+
+    private void setupSearch() {
+        SearchView searchView = findViewById(R.id.search_field);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 

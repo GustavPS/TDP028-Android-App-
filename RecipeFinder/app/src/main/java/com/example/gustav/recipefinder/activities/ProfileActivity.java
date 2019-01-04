@@ -1,5 +1,6 @@
 package com.example.gustav.recipefinder.activities;
 
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import com.example.gustav.recipefinder.R;
 import com.example.gustav.recipefinder.adapters.ProfileAdapter;
 import com.example.gustav.recipefinder.classes.ProfileSetting;
 import com.example.gustav.recipefinder.fragments.BookmarkList;
+import com.example.gustav.recipefinder.fragments.FriendList;
 import com.example.gustav.recipefinder.fragments.ProfileAdmin;
 import com.example.gustav.recipefinder.fragments.ProfileTop;
 import com.example.gustav.recipefinder.fragments.Settings;
@@ -31,7 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ProfileActivity extends AppCompatActivity implements ProfileTop.OnFragmentInteractionListener, ProfileAdmin.OnFragmentInteractionListener , Settings.OnFragmentInteractionListener, BookmarkList.OnFragmentInteractionListener{
+public class ProfileActivity extends AppCompatActivity implements ProfileTop.OnFragmentInteractionListener, ProfileAdmin.OnFragmentInteractionListener , Settings.OnFragmentInteractionListener, BookmarkList.OnFragmentInteractionListener, FriendList.OnFragmentInteractionListener {
 
     private FirebaseAuth mAuth;
     private FirebaseUser mFirebaseUser;
@@ -76,6 +78,14 @@ public class ProfileActivity extends AppCompatActivity implements ProfileTop.OnF
         }
     }
 
+    @Override
+    public void showRecipe(View view) {
+        String URI = ((TextView) view.findViewById(R.id.URI)).getText().toString();
+        Intent intent = new Intent(ProfileActivity.this, RecipeActivity.class);
+        intent.putExtra("URI", URI);
+        startActivity(intent);
+    }
+
     public void onFragmentInteraction(Uri uri) {
 
     }
@@ -88,7 +98,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileTop.OnF
 
         switch(fragment) {
             case "Friends":
-                frag = new Settings();
+                frag = new FriendList();
                 break;
             case "Preferences":
                 frag = new Settings();
@@ -154,12 +164,17 @@ public class ProfileActivity extends AppCompatActivity implements ProfileTop.OnF
             FragmentTransaction transaction = manager.beginTransaction();
             bookmarkFrag = BookmarkList.newInstance(uID);
             transaction.replace(R.id.fragment_container, bookmarkFrag, "bookmark_frag");
-            transaction.addToBackStack(null);
-            transaction.commit();
+            //transaction.addToBackStack(null);
+            transaction.commitAllowingStateLoss();
         } else {
             friends_warning_text.setVisibility(View.VISIBLE);
             if(bookmarkFrag != null)
                 getSupportFragmentManager().beginTransaction().remove(bookmarkFrag).commit();
         }
+    }
+
+    @Override
+    public void cancel() {
+        onFragmentInteraction("");
     }
 }

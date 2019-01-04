@@ -55,10 +55,17 @@ public class Settings extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         Button save = view.findViewById(R.id.save_button);
+        Button cancel = view.findViewById(R.id.cancel_button);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 save_changes();
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cancel_changes();
             }
         });
     }
@@ -80,18 +87,15 @@ public class Settings extends Fragment {
         }
     }
 
+    private void cancel_changes() {
+        mListener.cancel();
+    }
+
         @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_settings, container, false);
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
@@ -123,6 +127,6 @@ public class Settings extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void cancel();
     }
 }

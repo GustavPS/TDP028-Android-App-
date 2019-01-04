@@ -169,19 +169,17 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.search_user) {
             Intent intent = new Intent(MainActivity.this, SearchUserActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.logout) {
             AuthUI.getInstance()
                     .signOut(this)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         public void onComplete(@NonNull Task<Void> task) {
-                            // ...
+                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            finish();
                         }
                     });
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -195,6 +193,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    @Override
     public void showRecipe(View view) {
         String URI = ((TextView) view.findViewById(R.id.URI)).getText().toString();
         Intent intent = new Intent(MainActivity.this, RecipeActivity.class);

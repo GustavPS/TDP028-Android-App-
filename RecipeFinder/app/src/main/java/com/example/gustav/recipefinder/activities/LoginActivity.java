@@ -38,7 +38,8 @@ public class LoginActivity extends AppCompatActivity {
         List<AuthUI.IdpConfig> providers = Arrays.asList(
                 new AuthUI.IdpConfig.EmailBuilder().build(),
                 new AuthUI.IdpConfig.PhoneBuilder().build(),
-                new AuthUI.IdpConfig.GoogleBuilder().build());
+                new AuthUI.IdpConfig.GoogleBuilder().build(),
+                new AuthUI.IdpConfig.FacebookBuilder().build());
 
 // Create and launch sign-in intent
         startActivityForResult(
@@ -59,18 +60,23 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        System.out.println("ACTIVITYRESULT");
         super.onActivityResult(requestCode, resultCode, data);
         System.out.println("INNE IAF");
         System.out.println(requestCode);
         if(requestCode == RC_SIGN_IN) {
+            System.out.println("RC_SICN_IN");
             IdpResponse response = IdpResponse.fromResultIntent(data);
             if(resultCode == RESULT_OK) {
+                System.out.println("RESULT_OK");
                 System.out.println("Inloggad");
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 registerAccount(user.getDisplayName(), user.getEmail(), user.getUid());
 
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+                finish();
             } else {
                 Log.d("Fel", response.getError().getMessage());
             }
